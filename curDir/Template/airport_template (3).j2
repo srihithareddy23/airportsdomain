@@ -1,0 +1,315 @@
+{%- macro info(name_x,name_x_english,iata_code,icao_code,Image_url,airport_type,owner,owner_operator,operator,country_name,iso_region_name,opened,hub_for,elevation_ft_x,latitude_deg_x,longitude_deg_x,home_link,aircraft_movements,land_area,ID) %}
+
+{{'{{Infobox airport'}}
+{%- if name_x!= 'NaN' %}
+| name = {{name_x}}
+{%- endif %}
+{%- if Image_url!= 'NaN' %}
+| image = {{Image_url}}
+| image-width = 250px
+{%- endif %}
+{%- if iata_code!= 'NaN' %}
+| IATA = {{iata_code}}
+{%- endif %}
+{%- if icao_code!= 'NaN' %}
+| ICAO = {{icao_code}}
+{%- endif %}
+{%- if airport_type!= 'NaN' %}
+| type ={{airport_type}}
+{%- endif %}
+{%- if owner!= 'NaN' %}
+| owner ={{owner}}
+{%- endif %}
+{%- if owner_operator!= 'NaN' %}
+| owner_operator = {{owner_operator}}
+{%- endif %}
+{%- if operator!= 'NaN' %}
+| operator = {{operator}}
+{%- endif %}
+{%- if country_name!= 'NaN' or iso_region_name %}
+| location = {{country_name}}, {{iso_region_name}}
+{%- endif %}
+{%- if opened!= 'NaN' %}
+| opened = {{opened}}
+{%- endif %}
+{%- if hub_for!= 'NaN' %}
+| hub = {% for synonym_name in hub_for.split(',') %} {{'\n'}}* ''{{synonym_name}}''{% endfor %}
+{%- endif %}
+{%- if elevation_ft_x!= 'NaN' %}
+| elevation-f = {{elevation_ft_x}}
+{%- endif %}
+{%- if latitude_deg_x!= 'NaN' or longitude_deg_x!= 'NaN' %}
+| coordinates = {{latitude_deg_x}}, {{longitude_deg_x}}
+{%- endif %}
+{%- if aircraft_movements!= 'NaN' %}
+| stat1-header = విమాన కదలికలు
+| stat1-data = {{aircraft_movements}}
+{%- endif %}
+{%- if type_freq_eng!= 'NaN' %}
+| stat2-header = ఫ్రీక్వెన్సీ
+| stat2-data = {{type_freq_eng}}
+{%- endif %}
+{%- if home_link!= 'NaN' %}
+| website = {{home_link}}
+{%- endif %}
+{{'}}'}}
+{%- endmacro -%}
+
+
+{%- macro intro(name_x,name_x_english,iata_code,icao_code,municipality,scheduled_service,passengers,type_x,airport_type,owner,owner_operator,operator,country_name,iso_region_name,opened,hub_for,elevation_ft_x,latitude_deg_x,longitude_deg_x,home_link,aircraft_movements,land_area) -%}
+
+
+    {%- if country_name!='NaN' and iso_region_name!='NaN' %}
+        {%- set place_line1=[name_x + " ( " + name_x_english +" ) [[" + country_name + "]] అనే దేశంలోని " + iso_region_name + "అనే ప్రాంతంలో ఉంది."] | join('') -%}
+        {%- set place_line2=[name_x + " ( " + name_x_english +" ) " + iso_region_name + " అనే ప్రాంతంలోని [["+ country_name + "]] అనే దేశంలో ఉంది."] | join('') -%}
+	    {{ [place_line1,place_line2] | random}}
+    {%- endif %}
+
+    {%- if wikipedia_link != 'NaN' %}
+        {%- set wiki_link_line = "<ref name=\"wiki_link\">{{Cite web|url=" + wikipedia_link + "|title=" + name_x_english + "|work=Wikipedia |language=en |access-date=2022-06-21}}</ref> " | join('') -%}
+        {{wiki_link_line}}
+    {%- endif %}
+
+    {%- if iata_code!='NaN' and iaco_code!='NaN' %}
+        {%- set code_line1=["ఇంటర్నేషనల్ ఎయిర్ ట్రాన్స్పోర్ట్ అసోసియేషన్(IATA) వారు ఇచ్చిన కోడ్  " + iata_code + ", [[అంతర్జాతీయ పౌర విమానయాన సంస్థ]] (ICAO) వారు ఇచ్చిన కోడ్ " + icao_code + "."] | join('') -%}
+        {%- set code_line2=[iata_code + "ఇంటర్నేషనల్ ఎయిర్ ట్రాన్స్పోర్ట్ అసోసియేషన్(IATA) వారు ఇచ్చిన కోడ్, " + icao_code + "[[అంతర్జాతీయ పౌర విమానయాన సంస్థ]] (ICAO) వారు ఇచ్చిన కోడ్."] | join('') -%}
+        {{ [code_line1,code_line2] | random}}
+
+    {%- elif iata_code=='NaN' and iaco_code!='NaN' %}
+        {%- set code_line1=["[[అంతర్జాతీయ పౌర విమానయాన సంస్థ]] (ICAO) వారు ఇచ్చిన కోడ్ " + icao_code + "."] | join('') -%}
+        {%- set code_line2=[icao_code + "[[అంతర్జాతీయ పౌర విమానయాన సంస్థ]] (ICAO) వారు ఇచ్చిన కోడ్."] | join('') -%}
+        {{ [code_line1,code_line2] | random}}    
+            
+    {%- elif iata_code!='NaN' and iaco_code=='NaN' -%}
+        {%- set code_line1=["ఇంటర్నేషనల్ ఎయిర్ ట్రాన్స్పోర్ట్ అసోసియేషన్ (IATA) వారు ఇచ్చిన కోడ్." + iata_code + "."] | join('') -%}
+        {%- set code_line2=[iata_code + "ఇంటర్నేషనల్ ఎయిర్ ట్రాన్స్పోర్ట్ అసోసియేషన్(IATA) వారు ఇచ్చిన కోడ్."] | join('') -%}
+        {{ [code_line1,code_line2] | random}}
+    {%- endif -%}
+
+
+    {%- set ourairports_line = "<ref>{{Cite web|url=https://ourairports.com/help/data-dictionary.html#airports|title=Dataset formats @ OurAirports|website=ourairports.com|access-date=2022-06-21}}</ref> " | join('') -%}
+    {{ourairports_line}}
+
+
+    {%- if municipality!= 'NaN' and type_x == 'పెద్ద విమానాశ్రయం' -%}
+        {%- set munic_line=["ఈ విమానాశ్రయం " + country_name +  "లోని ప్రధాన అంతర్జాతీయ విమానాశ్రయం, ఇది " + municipality + " మున్సిపాలిటీ పరిది లోకి వస్తుంది. "] | join('') -%}
+        {{ [munic_line] | random }}
+
+    {%- elif municipality!= 'NaN' -%}
+        {%- set munic_line1=["ఈ విమానాశ్రయం " + municipality + " మున్సిపాలిటీ పరిది లోకి వస్తుంది. " ] | join('') -%}
+        {%- set munic_line2=[municipality + " మున్సిపాలిటీ పరిది లోకి ఈ విమానాశ్రయం వస్తుంది. "] | join('') -%}
+        {{ [munic_line1,munic_line2] | random}}
+    {%- endif %}
+
+
+    {%- if type_x!= 'NaN' %}
+        {%- set type_line1=["ఈ విమానాశ్రయం " + type_x + " విభాగంలో చెందినది. "] | join('') -%}
+        {%- set type_line2=[name_x + type_x + " విభాగంలో చెందినది. "] | join('') -%} 
+        {{ [type_line1,type_line2] | random}}      
+    {%- endif %}
+
+	{%- if  owner!= 'NaN' %}
+        {%- set owner_1_line=["ఇది ఒక " + owner + " యాజమాన్యంలోని విమానాశ్రయం. "] | join('') -%}
+        {%- set owner_2_line=["ఈ విమానాశ్రయం " + owner +" యాజమాన్యానికి చెందినది. "] | join('') -%}
+        {%- set owner_3_line=[owner + " వారు ఈ విమానాశ్రయానికి  యజమానులు. "] | join('') -%}
+        {{ [owner_1_line,owner_2_line,owner_3_line] | random}}
+    {%- endif %}
+
+    {%- if  latitude_deg_x!= 'NaN' and latitude_deg_x!='NaN' %}
+        {%- set latlong_line1=["ఈ విమానాశ్రయం భౌగోళికంగా అక్షాంశాలు (లాటిట్యూడ్) " + latitude_deg_x + ", రేఖంశాలు (లాంగిట్యూడ్) " + longitude_deg_x + " దగ్గరగా ఉంది. "] | join('') -%}
+        {%- set latlong_line2=["భౌగోళికంగా ఈ విమానాశ్రయ అక్షాంశాలు (లాటిట్యూడ్) " + latitude_deg_x + ", రేఖంశాలు (లాంగిట్యూడ్) " + longitude_deg_x + " దగ్గరగా ఉంది. "] | join('') -%}
+        {{ [latlong_line1,latlong_line2] | random}}
+    {%- endif %}
+
+    {%- if elevation_ft_x!= 'NaN' %}
+        {%- set elev_line1=[name_x + elevation_ft_x + " అడుగుల ( " + elevation_ft_x + " ft) ఎత్తులో ఉంది."] | join('') -%}
+        {%- set elev_line2=["ఈ  విమానాశ్రయం " + elevation_ft_x + " అడుగుల (" + elevation_ft_x + " ft) ఎత్తులో ఉంది."] | join('') -%}
+        {%- set elev_line3=[elevation_ft_x + " అడుగుల (" + elevation_ft_x + " ft) ఎత్తులో ఈ విమానాశ్రయం కొలువుతీరి ఉంది."] | join('') -%}
+        {{ [elev_line1,elev_line2,elev_line1] | random}}
+    {%- endif %}
+
+    
+    {%- set airports_line = "<ref>{{Cite web|url=https://ourairports.com/help/data-dictionary.html#airports|title=Airports Data|last=|first=|date=|website=OurAirports|language=en|url-status=live|archive-url=|archive-date=|access-date=2022-06-21}}</ref> " | join('') -%}
+    {{airports_line}}
+    {{"\n"}}
+
+    {%- if scheduled_service== 'yes' %}
+        {%- set sched_line=[name_x + " షెడ్యూల్డ్ సేవలను అందిస్తుంది. "] | join('') -%}
+        {{[sched_line] | random}}
+
+    {%- elif scheduled_service== 'no' %}
+        {%- set sched_line2=[name_x + " షెడ్యూల్డ్  సేవలను అందించడంలేదు. "] | join('') -%}
+        {{[sched_line2] | random }}
+    {%- endif %}
+ 
+    {%- if airport_type!= 'NaN' %}
+        {%- set airptype_line1=["ఇది ఒక " + airport_type + " విమానాశ్రయం. "] | join('') -%}
+        {%- set airptype_line2=[airport_type + "ల విభాగం లోకి ఈ విమానాశ్రయం వస్తుంది. "] | join('') -%}
+        {{[airptype_line1,airptype_line2] | random }}
+    {%- endif %}
+    {{"\n"}}
+
+    {%- if hub_for!= 'NaN' %}
+        {%- set hubfor_line1=[name_x + hub_for + "లకు కేంద్రంగా ఉంది. "] | join('') -%}
+        {%- set hubfor_line2=[name_x + " కేంద్రంగా " + hub_for + "లు ఉన్నాయి "] | join('') -%}
+        {{[hubfor_line1,hubfor_line2] | random }}        
+    {%- endif %}
+
+    {%- if passengers!= 'NaN' %}
+        {%- set passenger_line1=["ఈ విమానాశ్రయం సగటు ప్రయాణీకుల సంఖ్య సంవత్సరానికి " + passengers + ". "] | join('') -%}
+        {%- set passenger_line2=["సగటున సంవత్సరానికి ఈ విమానాశ్రయంలో " + passengers + " ప్రయాణికులు రాకపోకలు కొనసాగిస్తున్నారు. "] | join('') -%}
+        {{[passenger_line1,passenger_line2] | random }}      
+        {%- endif %}
+
+    {%- if aircraft_movements!= 'NaN' %}
+        {%- set airmove_line1=["సంవత్సరానికి ఈ విమానాశ్రయం లో సగటున " + aircraft_movements + " విమాన రాకపోకలు జరుగుతూ ఉంటాయి. "] | join('') -%}
+        {%- set airmove_line2=["ఈ విమానాశ్రయం లో సంవత్సరానికి సగటున " + aircraft_movements + " విమాన కదలికలు జరుగుతూ ఉంటాయి. "] | join('') -%}
+        {{[airmove_line1,airmove_line2] | random }}       
+    {%- endif %}
+    {{"\n"}}
+
+    {%- if owner!= 'NaN' %}
+        {%- set owner_1_line=["ఈ విమానాశ్రయం " + owner + " ఆధీనంలో ఉంది. "] | join('') -%}
+        {%- set owner_2_line=["ఈ విమానాశ్రయానికి యజమానులు " + owner + ". "] | join('') -%}
+        {{[owner_1_line,owner_2_line] | random }}
+    {%- endif %}
+
+    {%- if operator!= 'NaN' %}
+        {%- set operator_line1=[operator +  " వారు ఈ విమానాశ్రయ కార్యనిర్వహన చూసుకుంటున్నారు. "] | join('') -%}
+        {%- set operator_line2=["ఈ విమానాశ్రయ కార్యనిర్వహన " + operator + " వారు చూసుకుంటున్నారు. "] | join('') -%}
+        {{[operator_line1,operator_line2] | random }}    
+    {%- endif %}
+
+
+{%- endmacro -%}
+
+
+{%- macro charitra(opened,continent,country_name,iso_region,iso_region_name) -%}
+    ==విమానాశ్రయం చరిత్ర=={{'\n'}}{{find_line}}{{'\n'}}
+    {%- if opened != 'NaN' %}
+        {%- set opened_line1=[opened + " న, ఈ విమానాశ్రయాన్ని ప్రారంభించారు."] | join('') -%}
+        {%- set opened_line2=["ఈ విమానాశ్రయాన్ని " + opened + " న ప్రారంభించారు."] | join('') -%}
+        {{ [opened_line1,opened_line2 ] | random}}
+        
+    {%- endif -%}
+
+    {%- if wikipedia_link != 'NaN' -%}
+        {%- set wiki_link_line = "<ref name=\"wiki_link\" />" | join('') -%}
+        {{wiki_link_line}}
+    {%- endif -%}
+
+    {%- if continent  != 'NaN' and country_name != 'NaN' and iso_region != 'NaN' %}
+        {%- set region_1_line=["[[" + continent + "]] లోని " + country_name + "( " + iso_region + " )" + " అనే దేశంలో విమానాశ్రయం  స్థాపించబడినది. "] | join('') -%}
+        {%- set region_2_line=["ఈ  విమానాశ్రయం [[" + continent + "]] లోని " + country_name + "("  + iso_region + " ) అనే దేశం లో స్థాపించబడినది. "] | join('') -%}
+        {{ [region_1_line,region_2_line] | random}}
+        
+    {%- endif -%}
+
+    {%- if iso_region_name  != 'NaN' %}
+        {%- set region_line2=["ఇది " + iso_region_name + " అనే ప్రాంతంలో ఉంది. "] | join('') -%}
+        {%- set region_line3=[iso_region_name + " అనే ప్రాంతం లో ఈ విమానాశ్రయం కొలువుతీరి ఉంది. "] | join('') -%}
+        {{[region_line2,region_line3] | random}}
+        
+    {%- endif %}
+
+
+
+{%- endmacro -%}
+
+
+{%- macro freq(name_x,iata_code,icao_code,airport_type,owner,owner_operator,operator,country_name,iso_region_name,opened,hub_for,elevation_ft_x,latitude_deg_x,longitude_deg_x,home_link,aircraft_movements,land_area,ID,frequency_mhz,type_freq,type_freq_eng) -%}
+    ==ఫ్రీక్వెన్సీ సమాచారం=={{'\n'}}{{find_line}}{{'\n'}}
+
+    {%- if frequency_mhz!= 'NaN' %}
+        {%- set freq_line= [ name_x +  " ఫ్రీక్వెన్సీ " + frequency_mhz + " మెగా హెర్ట్జ్ (" + frequency_mhz + "MHz)."] | join('') -%}
+        {{ [freq_line] | random}}
+    {%- endif -%}
+
+    {%- set freq_link_line = "<ref>{{Cite web|url=https://ourairports.com/help/data-dictionary.html#airport-frequencies|title=Airports Frequency Information|last=|first=|date=|website=OurAirports|language=en|url-status=live|archive-url=|archive-date=|access-date=2022-06-21}}</ref> " | join('') -%}
+    {{freq_link_line}}
+
+    {%- if type_freq!= 'NaN' and type_freq_eng!='NaN' %}
+        {%- set type_freq_line=["ఈ విమానాశ్రయం " + type_freq + " (" + type_freq_eng + ")" + " రకం ఫ్రీక్వెన్సీని ఉపయోగిస్తుంది. "] | join('') -%}
+        {{ [type_freq_line] | random }}
+    {%- endif -%}
+
+
+
+{%- endmacro -%}
+
+
+{%- macro nirmanam(name_x,length_ft,width_ft,surface,lighted,le_latitude_deg,le_longitude_deg,le_elevation_ft) -%}
+    ==నిర్మాణం=={{'\n'}}{{find_line}}{{'\n'}}
+    {%- if length_ft != 'NaN' and width_ft != 'NaN' %}
+    	{%- set runway_line1=[ name_x + " రన్వే పొడవు " + length_ft + " అడుగులు, వెడల్పు " + width_ft + " అడుగులు. "] | join('') -%}
+        {%- set runway_line2=[ "ఈ విమానాశ్రయం రన్వే పొడువు " + length_ft + " అడుగులు, వెడల్పు " + width_ft + " అడుగులు. "] | join('') -%}
+        {%- set runway_line3=[ length_ft + " అడుగుల పొడవు, " +  width_ft + " అడుగుల వెడల్పు గల రన్వే ఈ విమానాశ్రయానికి ఉంది. "] | join('') -%}
+        {%- set runway_line4=[ length_ft + " అడుగుల పొడవు, " +  width_ft + " అడుగుల వెడల్పు గల రన్వే ఈ విమానాశ్రయం లో కొలువుతీరి ఉంది. "] | join('') -%}
+        {%- set runway_line5=[ "ఈ విమానాశ్రయం రన్వే కొలతలు " + length_ft + " అడుగులు x  " + width_ft + " అడుగులు. "] | join('') -%}
+        {{ [runway_line1, runway_line2, runway_line3, runway_line4, runway_line5] | random}}
+        
+    {%- endif %}
+   
+    {%- if  surface != 'NaN' %}
+    	{%- set surface_line1=[ "ఈ విమానాశ్రయ రన్‌వే ఉపరితలం " + surface + "తో నిర్మించబడింది. "] |join('') -%}
+        {%- set surface_line2=[ surface + "తో ఈ విమానాశ్రయం రన్వేని  నిర్మించడాం జరిగినది. "] |join('') -%}
+        {{ [surface_line1, surface_line2] | random}}
+
+    {%- endif %}
+   
+    {%- if  lighted != 'NaN' %}
+	    {%- if  lighted == 'yes' %}
+    		{%- set lighted_line1 =["విమానాశ్రయంలోని రన్‌వేలో లైట్లు ఉన్నాయి, తద్వారా విమానాలు చీకటిలో కూడా రాకపోకలు కొనసాగిస్తాయి. "] |join -%}
+            {%- set lighted_line2 =["ఈ విమానాశ్రయం లోని రన్వే లో లైట్లు ఉండటం తో, చీకట్లో క్కూడా విమాన రాకపోకలు కొనసాగుతాయి. "] |join -%}
+            {{ [lighted_line1,lighted_line2] | random }}
+       	    
+	    {%- else %}
+	        {%- set lighted_line3 =["విమానాశ్రయంలోని రన్‌వేలో లైట్లు లేవు, తద్వారా విమానాలు చీకటిలో రాకపోకలు కొనసాగించడం లేదు . "] |join -%}
+			{%- set lighted_line4 =["ఈ విమానాశ్రయం లోని రన్వే లో లైట్లు లేకపోవడం తో, చీకట్లో విమాన రాకపోకలు జరగటం లేదు. "] |join -%}
+            {{ [lighted_line3, lighted_line4] | random}}
+
+  	    {%- endif %}
+    {%- endif %}
+    {{"\n"}}
+
+    {%- if  le_latitude_deg != 'NaN' and le_longitude_deg!= 'NaN' %}
+        {%- set le_colines1 =["ఈ విమానాశ్రయ రన్‌వే భౌగోళిక అక్షాంశం "+ le_latitude_deg + ", రేఖాంశం " + le_longitude_deg + ". "] |join -%}
+        {%- set le_colines2 =["ఈ విమానాశ్రయ రన్‌వే భౌగోళిక అక్షాంశాలు " + le_latitude_deg + ", " + le_longitude_deg + "(లాటిట్యూడ్, లొంగిట్యూడ్ ). "] |join -%}
+        {{ [le_colines1,le_colines2] | random}}
+    {%- endif %}
+
+    {%- if  le_elevation_ft!= 'NaN' %}
+        {%- set le_ele1 =["ఈ విమానాశ్రయ రన్‌వే సముద్రమట్టం నుండి "+ le_elevation_ft + " అడుగుల ఎత్తులో ఉంది." ] |join -%}
+        {%- set le_ele2 =[name_x + " రన్‌వే సముద్రమట్టం నుండి " + le_elevation_ft + " అడుగుల ఎత్తులో ఉంది."] |join -%}
+        {{ [le_ele1,le_ele2] | random}}
+    {%- endif %}
+
+    
+    {%- set runway_link_line = "<ref>{{Cite web|url=https://ourairports.com/help/data-dictionary.html#runways|title=Runways Data|last=|first=|date=|website=OurAirports|language=en|url-status=live|archive-url=|archive-date=|access-date=2022-06-21}}</ref> " | join('') -%}
+    {{runway_link_line}}
+
+
+{%- endmacro -%}
+
+
+
+{%- macro references(wikipedia_link,home_link,country_name, continent) -%}
+==మూలాలు=={{'\n'}}<references />{{"\n"}}
+[[వర్గం:విమానాశ్రయం]]
+[[వర్గం:తెవికీ విమానాశ్రయం]]{{"\n"}}
+{%- if country_name != 'NaN' %}[[వర్గం:{{country_name}} విమానాశ్రయాలు]]{%- endif %}{{"\n"}}
+{%- if continent != 'NaN' %}[[వర్గం:{{continent}} విమానాశ్రయాలు]]{%- endif %} 
+{%- endmacro -%}
+{# Function Calls Below#}
+
+{{ info(name_x,name_x_english,iata_code,icao_code,Image_url,airport_type,owner,owner_operator,operator,country_name,iso_region_name,opened,hub_for,elevation_ft_x,latitude_deg_x,longitude_deg_x,home_link,aircraft_movements,land_area,ID) }}
+
+{{ intro(name_x,name_x_english,iata_code,icao_code,municipality,scheduled_service,passengers,type_x,airport_type,owner,owner_operator,operator,country_name,iso_region_name,opened,hub_for,elevation_ft_x,latitude_deg_x,longitude_deg_x,home_link,aircraft_movements,land_area) }}
+
+{{ charitra(opened,continent,country_name,iso_region,iso_region_name) }}
+
+{{ freq(name_x,iata_code,icao_code,airport_type,owner,owner_operator,operator,country_name,iso_region_name,opened,hub_for,elevation_ft_x,latitude_deg_x,longitude_deg_x,home_link,aircraft_movements,land_area,ID,frequency_mhz,type_freq,type_freq_eng) }}
+
+{{ nirmanam(name_x,length_ft,width_ft,surface,lighted,le_latitude_deg,le_longitude_deg,le_elevation_ft) }}
+
+{{ references(wikipedia_link,home_link,country_name, continent) }}
