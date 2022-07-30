@@ -90,7 +90,7 @@ GitHub Folder Link:
 - template.j2->This file consists of the improved template to generate wikitext provided a airplanes’ data, corresponding to latest dataset.
 
 # Contributors
-Students: Nikhil Chandra, Srihitha, Varun.
+Students: Srihitha, Nikhil Chandra, Varun.
 
-Student Mentors: Jayaprakash Aluri, Bala Bhavana K
+Student Mentors: Bala Bhavana K, Jayaprakash Aluri 
 
